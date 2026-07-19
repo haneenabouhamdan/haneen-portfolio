@@ -1,0 +1,302 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Slack brand system */
+  --bg: #ffffff;
+  --fg: #1d1c1d;
+  --aubergine: #4a154b;
+  --aubergine-null: #611f69;
+  --aubergine-active: #7c3085;
+  --blue: #1264a3;
+  --blue-bright: #36c5f0;
+  --green: #2eb67d;
+  --yellow: #ecb22e;
+  --red: #e01e5a;
+  --indigo: #611f69;
+  --cyan: #36c5f0;
+  --violet: #7c3085;
+}
+
+* {
+  border-color: rgba(10, 10, 20, 0.08);
+}
+
+html {
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Lenis smooth scroll */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  overflow-x: clip;
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: rgba(74, 21, 75, 0.14);
+  color: #1d1c1d;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 9px;
+}
+::-webkit-scrollbar-track {
+  background: #f8f4f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #d4c8d6;
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #4a154b;
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-[1600px] px-6 sm:px-10 lg:px-16;
+  }
+
+  /* Small uppercase tracked mono label */
+  .micro {
+    @apply font-mono text-[10.5px] uppercase tracking-[0.24em] text-muted;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.2em] text-sand;
+  }
+
+  .hairline {
+    @apply border-t border-black/[0.07];
+  }
+
+  /* Frosted white glass on light — cards, pills, CTAs */
+  .glass {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.85) 0%,
+      rgba(255, 255, 255, 0.62) 100%
+    );
+    backdrop-filter: blur(14px) saturate(1.4);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    border: 1px solid rgba(10, 10, 20, 0.08);
+    box-shadow: 0 1px 2px rgba(10, 10, 15, 0.04), 0 14px 40px -22px rgba(10, 10, 15, 0.22);
+  }
+
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(18px) saturate(1.4);
+    -webkit-backdrop-filter: blur(18px) saturate(1.4);
+    border: 1px solid rgba(10, 10, 20, 0.07);
+    box-shadow: 0 1px 2px rgba(10, 10, 15, 0.04), 0 30px 80px -34px rgba(10, 10, 15, 0.24);
+  }
+
+  /* Dark glass for the deliberate night bands (hero panel, finale) */
+  .glass-dark {
+    background: linear-gradient(180deg, rgba(28, 28, 40, 0.6) 0%, rgba(10, 10, 15, 0.6) 100%);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Display type — editorial serif (Fraunces) */
+  .display-hero {
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 500;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    font-size: clamp(2.7rem, 8.4vw, 8rem);
+  }
+
+  .display-xl {
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 500;
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    font-size: clamp(2.3rem, 6.4vw, 5.6rem);
+  }
+
+  .display-lg {
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 500;
+    line-height: 1.18;
+    letter-spacing: -0.025em;
+    font-size: clamp(1.85rem, 4.4vw, 3.7rem);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .grad-text {
+    background: linear-gradient(100deg, #1d1c1d 0%, #4a154b 55%, #1264a3 125%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .accent-text {
+    /* Plum → magenta → lavender → periwinkle (Work “One standard.”) */
+    background: linear-gradient(
+      100deg,
+      #5b144c 0%,
+      #e01e5a 32%,
+      #b07aa8 62%,
+      #8b9bc4 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  /* Video/image clipped inside text */
+  .clip-text {
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  /* Faint grain to kill banding on gradients */
+  .grain::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 70;
+    pointer-events: none;
+    opacity: 0.03;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .mask-fade-b {
+    -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+  }
+  .mask-fade-y {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      black 12%,
+      black 88%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      black 12%,
+      black 88%,
+      transparent 100%
+    );
+  }
+
+  /*
+   * Hero video — original HF colors; light neutral veil for text only.
+   */
+  .hero-readability-veil {
+    background:
+      linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.72) 0%,
+        rgba(0, 0, 0, 0.22) 40%,
+        transparent 68%
+      ),
+      radial-gradient(
+        80% 52% at 50% 40%,
+        transparent 0%,
+        rgba(0, 0, 0, 0.18) 100%
+      );
+  }
+
+  /* Contact finale — mid-tone slate/teal + Slack green as accent only */
+  .contact-finale-bg {
+    background-color: #243240;
+    background-image:
+      radial-gradient(
+        90% 55% at 50% -8%,
+        rgba(54, 197, 240, 0.18) 0%,
+        transparent 55%
+      ),
+      radial-gradient(
+        70% 50% at 92% 78%,
+        rgba(46, 182, 125, 0.1) 0%,
+        transparent 58%
+      ),
+      radial-gradient(
+        55% 40% at 8% 70%,
+        rgba(54, 197, 240, 0.1) 0%,
+        transparent 55%
+      ),
+      radial-gradient(
+        48% 34% at 72% 100%,
+        rgba(236, 178, 46, 0.08) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        40% 30% at 18% 100%,
+        rgba(224, 30, 90, 0.06) 0%,
+        transparent 48%
+      ),
+      linear-gradient(
+        165deg,
+        #2f4256 0%,
+        #283842 45%,
+        #243240 100%
+      );
+  }
+
+  /* Soft bloom behind “Let’s build something exceptional.” */
+  .contact-headline-bloom {
+    background: radial-gradient(
+      55% 48% at 50% 50%,
+      rgba(54, 197, 240, 0.16) 0%,
+      rgba(46, 182, 125, 0.05) 38%,
+      transparent 70%
+    );
+    filter: blur(2px);
+  }
+
+  @media (min-width: 768px) {
+    .contact-headline-bloom {
+      background: radial-gradient(
+        50% 45% at 50% 50%,
+        rgba(54, 197, 240, 0.2) 0%,
+        rgba(46, 182, 125, 0.06) 36%,
+        rgba(236, 178, 46, 0.04) 55%,
+        transparent 72%
+      );
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lenis.lenis-smooth {
+    scroll-behavior: smooth !important;
+  }
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
