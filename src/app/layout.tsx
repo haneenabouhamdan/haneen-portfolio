@@ -15,7 +15,9 @@ const sans = Inter({
 const display = Fraunces({
   subsets: ["latin"],
   variable: "--font-display",
-  weight: ["400", "500", "600"],
+  // Variable + Softness/opsz — static weight subset ships a flat-bottom "g"
+  axes: ["SOFT", "WONK", "opsz"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 
@@ -27,7 +29,11 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Haneen Abou Hamdan — Senior Software Engineer & Engineering Lead",
+  title: {
+    default:
+      "HA · Haneen Abou Hamdan — Senior Software Engineer & Engineering Lead · Dubai",
+    template: "%s · HA",
+  },
   description:
     "Senior Software Engineer and Engineering Lead in Dubai. Building scalable software, AI-powered platforms and enterprise digital experiences across web and mobile.",
   metadataBase: new URL("https://haneenabouhamdan.com"),
@@ -35,11 +41,26 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Haneen Abou Hamdan — Senior Software Engineer & Engineering Lead",
+    title: "HA · Haneen Abou Hamdan — Senior Software Engineer & Engineering Lead",
     description:
       "Building scalable software, AI-powered platforms and enterprise digital experiences.",
     url: "https://haneenabouhamdan.com",
     type: "website",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Haneen Abou Hamdan — Senior Software Engineer & Engineering Lead · Dubai",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "HA · Haneen Abou Hamdan — Senior Software Engineer & Engineering Lead",
+    description:
+      "Building scalable software, AI-powered platforms and enterprise digital experiences.",
+    images: ["/og.png"],
   },
 };
 

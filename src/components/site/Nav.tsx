@@ -68,9 +68,9 @@ export default function Nav() {
                 <Magnetic strength={0.25}>
                   <a
                     href={l.href}
-                    className={`relative text-[13px] tracking-tight transition-colors ${
+                    className={`relative text-[13px] font-semibold tracking-tight transition-colors ${
                       onVideo
-                        ? "text-white/70 hover:text-white"
+                        ? "text-white/90 hover:text-white"
                         : "text-sand hover:text-cream"
                     }`}
                   >
@@ -83,14 +83,14 @@ export default function Nav() {
           <Magnetic strength={0.3}>
             <a
               href={showFreelance ? "#services" : `mailto:${profile.email}`}
-              className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-[12px] font-medium tracking-tight transition-colors ${
+              className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-[12px] font-semibold tracking-tight transition-colors ${
                 onVideo
                   ? "border border-white/25 bg-white/10 text-white backdrop-blur-md hover:bg-white/20"
                   : "glass text-cream hover:border-blue/40"
               }`}
             >
               {showFreelance ? "Work with me" : "Get in touch"}
-              <span className={onVideo ? "text-white/70" : "text-blue"}>→</span>
+              <span className={onVideo ? "text-white/90" : "text-blue"}>→</span>
             </a>
           </Magnetic>
         </nav>

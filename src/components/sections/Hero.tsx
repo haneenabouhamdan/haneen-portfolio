@@ -3,15 +3,11 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { profile, showFreelance } from "@/lib/content";
-
-const EASE = [0.16, 1, 0.3, 1] as const;
-/** Bust CDN/browser cache when hero media is replaced. */
-const HERO_MEDIA_V = "20260719h";
+import ConnectingDots from "@/components/site/ConnectingDots";
 
 /**
- * Full-bleed cinematic hero — the VIDEO is the design.
- * Sticky scroll runway: media zooms / drifts through the architecture
- * before the next section lands.
+ * Full-bleed cinematic hero — connecting-dots constellation as the backdrop.
+ * Sticky scroll runway: media zooms / drifts before the next section lands.
  */
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
@@ -20,15 +16,14 @@ export default function Hero() {
     offset: ["start start", "end start"],
   });
 
-  // Travel into the skyline — scale + Y + slight X drift (parallax depth)
-  const videoScale = useTransform(scrollYProgress, [0, 1], [1, 1.48]);
-  const videoY = useTransform(scrollYProgress, [0, 1], ["0%", "14%"]);
-  const videoX = useTransform(scrollYProgress, [0, 1], ["0%", "-3%"]);
-  const videoBlur = useTransform(scrollYProgress, [0, 0.55, 1], [0, 0.5, 2.5]);
-  const videoFilter = useTransform(videoBlur, (b) => `blur(${b}px)`);
+  // Travel into the field — scale + Y + slight X drift (parallax depth)
+  const mediaScale = useTransform(scrollYProgress, [0, 1], [1, 1.48]);
+  const mediaY = useTransform(scrollYProgress, [0, 1], ["0%", "14%"]);
+  const mediaX = useTransform(scrollYProgress, [0, 1], ["0%", "-3%"]);
+  const mediaBlur = useTransform(scrollYProgress, [0, 0.55, 1], [0, 0.5, 2.5]);
+  const mediaFilter = useTransform(mediaBlur, (b) => `blur(${b}px)`);
 
-  const contentY = useTransform(scrollYProgress, [0, 0.85], ["0%", "28%"]);
-  // Keep hero copy readable longer — previous curve faded text out too early
+  // Keep hero copy readable longer — fade only (no transform on copy)
   const contentOpacity = useTransform(scrollYProgress, [0, 0.55, 0.85], [1, 1, 0]);
   // Light veil at rest for contrast; deepens for exit
   const veil = useTransform(scrollYProgress, [0, 0.85], [0.15, 0.86]);
@@ -38,101 +33,66 @@ export default function Hero() {
     <section
       ref={ref}
       id="top"
-      className="relative h-[155svh] min-h-[900px] w-full bg-[#080C14]"
+      className="relative h-[155svh] min-h-[900px] w-full bg-[#050509]"
     >
-      <div className="sticky top-0 h-[100svh] min-h-[640px] w-full overflow-hidden">
-        {/* Perspective stage — transforms read as depth, not flat zoom */}
-        <div
-          className="absolute inset-0"
-          style={{ perspective: "1400px", perspectiveOrigin: "58% 42%" }}
-        >
-          {/* Mid / far field — primary hero video */}
-          <motion.div
-            style={{
-              scale: videoScale,
-              x: videoX,
-              y: videoY,
-              filter: videoFilter,
-              transformOrigin: "58% 42%",
-              willChange: "transform, filter",
-            }}
-            className="absolute inset-[-8%]"
+      <div className="sticky top-0 h-[100svh] min-h-[640px] w-full">
+        {/* Overflow only on media — transformed headline ink must not clip
+            (sticky overflow-hidden + Framer transform crops Fraunces g). */}
+        <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+          {/* Perspective stage — transforms read as depth, not flat zoom */}
+          <div
+            className="absolute inset-0"
+            style={{ perspective: "1400px", perspectiveOrigin: "85% 42%" }}
           >
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              poster={`/media/hero-poster.jpg?v=${HERO_MEDIA_V}`}
-              preload="auto"
-              className="absolute inset-0 h-full w-full object-cover"
+            <motion.div
+              style={{
+                scale: mediaScale,
+                x: mediaX,
+                y: mediaY,
+                filter: mediaFilter,
+                transformOrigin: "85% 42%",
+                willChange: "transform, filter",
+              }}
+              className="absolute inset-[-8%]"
             >
-              <source src={`/media/hero.mp4?v=${HERO_MEDIA_V}`} type="video/mp4" />
-            </video>
-          </motion.div>
+              <ConnectingDots />
+            </motion.div>
+          </div>
+
+          {/* Light readability veil — neutral, no color grade */}
+          <motion.div
+            style={{ opacity: veil }}
+            className="hero-readability-veil absolute inset-0"
+          />
         </div>
 
-        {/* Light readability veil — neutral, no color grade */}
+        {/* Content — bottom-weighted, editorial. Opacity fade only (no y
+            transform) so Fraunces Softness descenders stay intact. */}
         <motion.div
-          style={{ opacity: veil }}
-          className="hero-readability-veil pointer-events-none absolute inset-0"
-        />
-
-        {/* Content — bottom-weighted, editorial */}
-        <motion.div
-          style={{ y: contentY, opacity: contentOpacity }}
-          className="relative z-10 flex h-full flex-col justify-end px-6 pb-16 pt-28 sm:px-10 lg:px-16 lg:pb-20"
+          style={{ opacity: contentOpacity }}
+          className="hero-copy relative z-10 flex h-full flex-col justify-end px-6 pb-16 pt-28 sm:px-10 lg:px-16 lg:pb-20"
         >
           <div className="mx-auto w-full max-w-[1600px]">
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.2, ease: EASE }}
-              className="font-mono text-[11px] uppercase tracking-[0.28em] text-white/55"
-            >
+            <p className="font-mono text-[11px] font-bold uppercase tracking-[0.28em] text-white/70">
               Senior Software Engineer · Engineering Lead · Dubai
-            </motion.p>
+            </p>
 
             <h1 className="sr-only">{profile.name}</h1>
 
-            {/* Kinetic concept line — NOT the name filling the frame */}
-            <div className="mt-5 overflow-hidden">
-              <motion.p
-                initial={{ y: "110%" }}
-                animate={{ y: "0%" }}
-                transition={{ duration: 1.15, delay: 0.35, ease: EASE }}
-                className="font-display text-[clamp(2.8rem,9vw,7.5rem)] font-medium leading-[0.92] tracking-[-0.03em] text-white"
-              >
-                Precision
-              </motion.p>
-            </div>
-            <div className="overflow-hidden">
-              <motion.p
-                initial={{ y: "110%" }}
-                animate={{ y: "0%" }}
-                transition={{ duration: 1.15, delay: 0.48, ease: EASE }}
-                className="font-display text-[clamp(2.8rem,9vw,7.5rem)] font-medium leading-[0.92] tracking-[-0.03em] text-white/90"
-              >
-                at <span className="italic text-white/70">scale.</span>
-              </motion.p>
-            </div>
+            {/* Kinetic concept line — Softness/opsz + em pad; no overflow mask. */}
+            <p className="hero-concept-line mt-5 pb-[0.28em] font-display text-[clamp(2.25rem,7vw,5.75rem)] font-medium leading-[1.15] tracking-[-0.03em] text-white">
+              Engineering
+            </p>
+            <p className="hero-concept-line pb-[0.28em] font-display text-[clamp(2.25rem,7vw,5.75rem)] font-medium leading-[1.15] tracking-[-0.03em] text-white/90">
+              that <span className="italic text-white/70">ships.</span>
+            </p>
 
-            <motion.p
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.85, ease: EASE }}
-              className="mt-7 max-w-xl text-[16px] leading-relaxed text-white/65 sm:text-[17px]"
-            >
-              I lead web, mobile and AI platforms at Emaar — and I&apos;m available
-              as a senior software developer for selected consultancy and delivery.
-            </motion.p>
+            <p className="mt-7 max-w-xl text-[16px] font-semibold leading-relaxed text-white/80 sm:text-[17px]">
+              I lead web, mobile and AI platforms, and I&apos;m available as a
+              senior software developer for selected consultancy and delivery.
+            </p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 1, ease: EASE }}
-              className="mt-10 flex flex-wrap items-center gap-3"
-            >
+            <div className="mt-10 flex flex-wrap items-center gap-3">
               <a
                 href="#work"
                 className="inline-flex items-center gap-2.5 rounded-full bg-white px-6 py-3.5 text-[13px] font-medium text-[#080C14] transition hover:bg-white/90"
@@ -155,7 +115,7 @@ export default function Hero() {
                   Get in touch
                 </a>
               )}
-            </motion.div>
+            </div>
           </div>
         </motion.div>
 

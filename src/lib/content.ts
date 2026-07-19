@@ -63,7 +63,7 @@ export const profile = {
   github: "https://github.com/haneenabouhamdan",
   resume: "/resume/haneen-abou-hamdan.pdf",
   /** Optional Calendly (or similar) — edit this URL when you have a booking link. */
-  bookingUrl: "mailto:haneenabouhamdan@gmail.com?subject=Book%20a%20call%20—%20Haneen%20Abou%20Hamdan",
+  bookingUrl: "https://calendly.com/haneen-abouhamdan/new-meeting",
   tagline: "Senior engineering leadership, delivered with taste.",
   heroWord: "MOMENTUM",
   available: "Available as a senior software developer — lead roles, consultancy & freelance",
@@ -192,8 +192,9 @@ export const experience: Experience[] = [
     location: "Abu Dhabi, UAE",
     points: [
       "Owned end-to-end delivery of logistics, tracking and operations platforms with product and business stakeholders.",
-      "Led backend architecture modernization that improved performance 4× and supported scalable growth.",
-      "Built customer reporting that reduced support inquiries by 50%, plus offline mode, barcode scanning and real-time tracking.",
+      "Spearheaded backend architecture modernization that improved performance 4× and supported scalable company growth.",
+      "Drove customer reporting that cut support inquiries by 50%, plus field-ops mobile — offline mode, barcode scanning, push notifications and real-time tracking.",
+      "Strengthened engineering quality through automated testing, API documentation and standardized development practices across Node.js, NestJS, Next.js and React.",
     ],
   },
 ];
@@ -219,6 +220,10 @@ export type Project = {
   primary: "desktop" | "mobile";
   /** Optional public repo. Emaar work is proprietary and intentionally omits this. */
   githubUrl?: string;
+  /** Optional live product / marketing URL. */
+  liveUrl?: string;
+  /** Optional brand mark under /public/media/ (e.g. hawkeye-logo, swftbox-logo). */
+  logo?: string;
 };
 
 export const projects: Project[] = [
@@ -554,6 +559,74 @@ export const projects: Project[] = [
     mobile: "/projects/hotels-mobile.png",
     primary: "desktop",
   },
+  {
+    slug: "swftbox",
+    index: "09",
+    name: "Swftbox",
+    client: "Swftbox",
+    year: "2021 — 2025",
+    category: "Logistics & Delivery Tech",
+    role: "Full Stack Developer",
+    headline: "Four years shipping the platforms behind same-day delivery.",
+    summary:
+      "At Swftbox I owned end-to-end delivery of logistics, tracking and operations platforms — partnering closely with product and business from architecture through release. I led a backend modernization that improved performance 4× and supported scalable growth, while shipping customer reporting that cut support inquiries by 50% and field-ops mobile with offline mode, barcode scanning, push notifications and real-time location tracking. Across nearly four years I stayed hands-on in Node.js, NestJS, Next.js and React, strengthening quality with automated testing, API documentation and standardized engineering practices.",
+    stack: ["Node.js", "NestJS", "Next.js", "React", "TypeScript", "PostgreSQL"],
+    tasks: [
+      {
+        n: "01",
+        title: "End-to-end platform ownership",
+        detail:
+          "Owned logistics, tracking and operations platforms in close partnership with product and business — scoping, architecture, delivery and iteration across the full stack.",
+      },
+      {
+        n: "02",
+        title: "Backend architecture modernization",
+        detail:
+          "Spearheaded backend modernization that improved performance 4× and supported scalable company growth as order volume and operational complexity increased.",
+      },
+      {
+        n: "03",
+        title: "Customer reporting systems",
+        detail:
+          "Drove reporting initiatives that reduced support inquiries by 50%, giving merchants and customers clearer shipment visibility without opening tickets.",
+      },
+      {
+        n: "04",
+        title: "Field operations mobile",
+        detail:
+          "Built mobile capabilities for field ops — offline mode, barcode scanning, push notifications and real-time location tracking for drivers on the road.",
+      },
+      {
+        n: "05",
+        title: "Operations & tracking workflows",
+        detail:
+          "Shipped the day-to-day surfaces ops teams live in — order status pipelines, depot-to-door tracking and fulfillment workflows that keep same-day deliveries on schedule.",
+      },
+      {
+        n: "06",
+        title: "Engineering quality & standards",
+        detail:
+          "Strengthened quality through automated testing, API documentation and standardized development practices so delivery stayed fast without sacrificing reliability.",
+      },
+      {
+        n: "07",
+        title: "Hands-on full-stack delivery",
+        detail:
+          "Contributed across Node.js, NestJS, Next.js and React while influencing technical decisions and release outcomes — not only architecture, but the code that shipped.",
+      },
+      {
+        n: "08",
+        title: "Product–engineering partnership",
+        detail:
+          "Balanced scope, dependencies and business expectations with stakeholders so high-impact logistics initiatives landed on time and stayed operable in production.",
+      },
+    ],
+    desktop: "/projects/swftbox-desktop-v3.png",
+    mobile: "/projects/swftbox-mobile-v3.png",
+    primary: "desktop",
+    liveUrl: "https://www.swftbox.com/",
+    logo: "/media/swftbox-logo.png",
+  },
 ];
 
 export type PersonalProject = {
@@ -582,10 +655,10 @@ export type PersonalProject = {
 export const personalProjects: PersonalProject[] = [
   {
     name: "Glam Girl",
-    tagline: "Occasion-wear, checked out with Stripe.",
+    tagline: "Occasion-wear, built to convert.",
     description:
-      "A full-stack occasion-wear storefront — dresses handpicked in Istanbul, delivered across the UAE — with catalog and detail pages, cart, Stripe Checkout, accounts and order history. The Stripe webhook is the source of truth for every order.",
-    stack: ["TanStack Start", "React", "Vite", "Tailwind", "Neon Postgres", "Stripe"],
+      "A full-stack occasion-wear storefront — dresses handpicked in Istanbul, delivered across the UAE — with catalog and detail pages, cart, checkout, accounts and order history. Webhook-driven order reconciliation keeps fulfillment tied to verified payments.",
+    stack: ["TanStack Start", "React", "Vite", "Tailwind", "Neon Postgres"],
     year: "2026",
     // Private repo — no public GitHub link.
     liveUrl: "https://mayabella.vercel.app",
@@ -597,9 +670,9 @@ export const personalProjects: PersonalProject[] = [
     tasks: [
       {
         n: "01",
-        title: "Stripe payments & webhooks",
+        title: "Payments & webhooks",
         detail:
-          "Integrated Stripe Checkout for card payments and made the Stripe webhook the source of truth — reconciling sessions to orders so fulfillment only ever follows a verified payment.",
+          "Integrated card checkout and made webhook reconciliation the source of truth — matching sessions to orders so fulfillment only ever follows a verified payment.",
       },
       {
         n: "02",

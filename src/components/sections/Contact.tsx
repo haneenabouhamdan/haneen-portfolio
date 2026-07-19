@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Reveal, WordsReveal } from "@/components/motion/Reveal";
 import { Magnetic } from "@/components/motion/Magnetic";
+import ConnectingDots from "@/components/site/ConnectingDots";
 import { GitHubIcon } from "@/components/site/icons";
 import { profile, sectionEyebrow } from "@/lib/content";
 
@@ -33,13 +34,18 @@ export default function Contact() {
       id="contact"
       className="contact-finale-bg relative mt-16 overflow-hidden rounded-t-[2.5rem] text-white"
     >
-      {/* Cyan + subtle Slack-green accent blooms */}
+      {/* Same constellation atmosphere as the hero — lighter full-field variant */}
+      <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
+        <ConnectingDots variant="finale" />
+      </div>
+
+      {/* Soft center veil so headline / CTAs stay readable over the network */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(45%_38%_at_18%_72%,rgba(54,197,240,0.14),transparent_68%),radial-gradient(50%_40%_at_88%_62%,rgba(46,182,125,0.08),transparent_70%),radial-gradient(40%_32%_at_50%_100%,rgba(236,178,46,0.05),transparent_65%)]"
+        className="contact-finale-veil pointer-events-none absolute inset-0 z-[1]"
       />
 
-      <div className="container-x relative">
+      <div className="container-x relative z-10">
         {/* Monogram finale */}
         <div className="flex flex-col items-center pt-24 text-center md:pt-32">
           <motion.div
@@ -64,8 +70,8 @@ export default function Contact() {
         {/* Contact */}
         <div className="mx-auto max-w-4xl pb-8 pt-20 text-center md:pt-28">
           <p className="eyebrow justify-center text-white/50">
-            <span className="text-blue">{sectionEyebrow.contact}</span>
-            <span className="h-px w-6 bg-gradient-to-r from-blue to-transparent" />
+            <span className="text-cyan-300">{sectionEyebrow.contact}</span>
+            <span className="h-px w-6 bg-gradient-to-r from-cyan-300/60 to-transparent" />
             Contact
           </p>
 
@@ -84,7 +90,7 @@ export default function Contact() {
           </div>
 
           <Reveal delay={0.1}>
-            <p className="mx-auto mt-8 max-w-xl text-[16px] leading-relaxed text-white/60">
+            <p className="mx-auto mt-8 max-w-xl text-[16px] leading-relaxed text-white/65">
               {profile.available} — from architecture and AI integration to hands-on
               senior delivery. Tell me what you&apos;re building.
             </p>
@@ -94,7 +100,7 @@ export default function Contact() {
             <Magnetic strength={0.2}>
               <a
                 href={`mailto:${profile.email}`}
-                className="inline-block text-[clamp(1.4rem,4vw,2.8rem)] font-semibold tracking-tight text-white underline decoration-blue/50 decoration-2 underline-offset-[10px] transition-colors hover:decoration-blue"
+                className="inline-block text-[clamp(1.4rem,4vw,2.8rem)] font-semibold tracking-tight text-white underline decoration-cyan-300/40 decoration-2 underline-offset-[10px] transition-colors hover:decoration-cyan-300/80"
               >
                 {profile.email}
               </a>
@@ -114,7 +120,7 @@ export default function Contact() {
                     className="group inline-flex items-center gap-2 text-[15px] text-white/60 transition-colors hover:text-white"
                   >
                     {s.label === "GitHub" && <GitHubIcon className="h-4 w-4" />}
-                    <span className="h-px w-5 bg-white/30 transition-all group-hover:w-8 group-hover:bg-blue" />
+                    <span className="h-px w-5 bg-white/30 transition-all group-hover:w-8 group-hover:bg-cyan-300/70" />
                     {s.label}
                   </a>
                 </Magnetic>

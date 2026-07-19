@@ -212,6 +212,27 @@ body {
   }
 
   /*
+   * Hero video — shift focal content right so left ~35% stays calm for copy.
+   * Full frame preserved in file; crop/position handled in CSS only.
+   */
+  .hero-video {
+    object-fit: cover;
+    object-position: 85% center;
+    transform: scale(1.2);
+    transform-origin: 85% center;
+  }
+
+  /*
+   * Hero concept type — Fraunces Softness + display opsz so the "g"
+   * descender is a full rounded loop (static next/font weight subset
+   * ships a flat-bottom g). Em padding + leading keep ink inside the box.
+   */
+  .hero-concept-line {
+    overflow: visible;
+    font-variation-settings: "SOFT" 70, "WONK" 0, "opsz" 144;
+  }
+
+  /*
    * Hero video — original HF colors; light neutral veil for text only.
    */
   .hero-readability-veil {
@@ -229,49 +250,34 @@ body {
       );
   }
 
-  /* Contact finale — mid-tone slate/teal + Slack green as accent only */
+  /* Contact finale — same dark navy network base as the hero */
   .contact-finale-bg {
-    background-color: #243240;
-    background-image:
-      radial-gradient(
-        90% 55% at 50% -8%,
-        rgba(54, 197, 240, 0.18) 0%,
-        transparent 55%
-      ),
-      radial-gradient(
-        70% 50% at 92% 78%,
-        rgba(46, 182, 125, 0.1) 0%,
-        transparent 58%
-      ),
-      radial-gradient(
-        55% 40% at 8% 70%,
-        rgba(54, 197, 240, 0.1) 0%,
-        transparent 55%
-      ),
-      radial-gradient(
-        48% 34% at 72% 100%,
-        rgba(236, 178, 46, 0.08) 0%,
-        transparent 50%
-      ),
-      radial-gradient(
-        40% 30% at 18% 100%,
-        rgba(224, 30, 90, 0.06) 0%,
-        transparent 48%
-      ),
+    background-color: #060816;
+  }
+
+  /* Readability veil over ConnectingDots (finale) */
+  .contact-finale-veil {
+    background:
       linear-gradient(
-        165deg,
-        #2f4256 0%,
-        #283842 45%,
-        #243240 100%
+        to bottom,
+        rgba(6, 8, 22, 0.35) 0%,
+        rgba(6, 8, 22, 0.2) 28%,
+        rgba(6, 8, 22, 0.55) 72%,
+        rgba(5, 5, 9, 0.82) 100%
+      ),
+      radial-gradient(
+        55% 42% at 50% 52%,
+        rgba(6, 8, 22, 0.5) 0%,
+        transparent 70%
       );
   }
 
-  /* Soft bloom behind “Let’s build something exceptional.” */
+  /* Soft bloom behind “Let’s build something exceptional.” — cyan / indigo only */
   .contact-headline-bloom {
     background: radial-gradient(
       55% 48% at 50% 50%,
-      rgba(54, 197, 240, 0.16) 0%,
-      rgba(46, 182, 125, 0.05) 38%,
+      rgba(51, 228, 214, 0.12) 0%,
+      rgba(139, 108, 255, 0.08) 38%,
       transparent 70%
     );
     filter: blur(2px);
@@ -281,9 +287,8 @@ body {
     .contact-headline-bloom {
       background: radial-gradient(
         50% 45% at 50% 50%,
-        rgba(54, 197, 240, 0.2) 0%,
-        rgba(46, 182, 125, 0.06) 36%,
-        rgba(236, 178, 46, 0.04) 55%,
+        rgba(51, 228, 214, 0.14) 0%,
+        rgba(139, 108, 255, 0.1) 36%,
         transparent 72%
       );
     }

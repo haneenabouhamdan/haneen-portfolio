@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Connecting dots</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;background:#050509}
+  body{display:grid;place-items:center;min-height:100vh;padding:16px;overflow:hidden}
+  .stage{
+    position:relative;width:100%;max-width:1180px;aspect-ratio:16/9;
+    border-radius:20px;overflow:hidden;
+    background:radial-gradient(120% 130% at 68% 25%,rgba(30,30,66,.5) 0%,rgba(12,12,30,.45) 45%,rgba(8,8,15,.5) 100%);
+    box-shadow:0 40px 120px -30px rgba(0,0,0,.8), inset 0 0 0 1px rgba(255,255,255,.05);
+  }
+  canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .vig{position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(120% 120% at 60% 45%,transparent 60%,rgba(0,0,0,.32) 100%)}
+</style>
+</head>
+<body>
+  <div class="stage">
+    <canvas id="c"></canvas>
+    <div class="vig"></div>
+  </div>
+<script>
+(function(){
+  const cv = document.getElementById('c');
+  const ctx = cv.getContext('2d');
+  const palette = ['#8B6CFF','#FF4D8D','#FF7A45','#FFC24B','#33E4D6'];
+  let W=0,H=0,DPR=Math.min(devicePixelRatio||1,2);
+  let nodes=[], t=0;
+  const REDUCE = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const REGION = 0.42;        // left fraction kept empty
+  const FADE   = 190;         // px over which the constellation dissolves at its left edge
+  let xMin=0;
+  function edge(x){ return Math.max(0, Math.min(1, (x - xMin)/FADE)); }  // 0 at band edge -> 1 inside
+
+  function resize(){
+    const r = cv.getBoundingClientRect();
+    W=r.width; H=r.height;
+    cv.width=W*DPR; cv.height=H*DPR;
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    build();
+  }
+
+  function build(){
+    xMin = W*REGION;
+    const bandW = W - xMin;
+    const count = Math.round((bandW*H)/9500);        // density scales with the band size
+    const n = Math.max(30, Math.min(72, count));
+    nodes = [];
+    for(let i=0;i<n;i++){
+      nodes.push({
+        x: xMin + Math.random()*bandW,
+        y: Math.random()*H,
+        vx:(Math.random()-.5)*(REDUCE?0:0.28),
+        vy:(Math.random()-.5)*(REDUCE?0:0.28),
+        r: 1.6 + Math.random()*2.2,
+        c: palette[i % palette.length],
+        ph: Math.random()*Math.PI*2                  // twinkle phase
+      });
+    }
+  }
+
+  const LINK = 150;           // connect distance
+  function frame(){
+    t += 0.016;
+    ctx.clearRect(0,0,W,H);
+
+    // move
+    for(const p of nodes){
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x< xMin-20)p.x=W+20; else if(p.x>W+20)p.x=xMin-20;
+      if(p.y< -20)p.y=H+20; else if(p.y>H+20)p.y=-20;
+    }
+
+    // a soft "pulse" sweeps left->right, brightening links it passes
+    const sweep = ((t*0.16)%1.4 - 0.2)*W;   // x position of the wave, loops
+
+    // links
+    for(let i=0;i<nodes.length;i++){
+      const a=nodes[i];
+      for(let j=i+1;j<nodes.length;j++){
+        const b=nodes[j];
+        const dx=a.x-b.x, dy=a.y-b.y;
+        const d=Math.hypot(dx,dy);
+        if(d<LINK){
+          let alpha=(1-d/LINK)*0.85;
+          const midx=(a.x+b.x)/2;
+          const near=1-Math.min(1,Math.abs(midx-sweep)/260);  // brighten near wave
+          alpha += near*near*0.7;
+          alpha *= edge((a.x+b.x)/2);                // dissolve toward empty left
+          if(alpha<=0.01) continue;
+          const g=ctx.createLinearGradient(a.x,a.y,b.x,b.y);
+          g.addColorStop(0,a.c); g.addColorStop(1,b.c);
+          ctx.strokeStyle=g;
+          ctx.lineWidth = 1.1 + near*1.6;
+          ctx.globalAlpha=Math.min(1,alpha);
+          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+        }
+      }
+    }
+
+    // nodes
+    ctx.globalAlpha=1;
+    for(const p of nodes){
+      const tw = 0.6 + 0.4*Math.sin(t*2 + p.ph);
+      const near = 1-Math.min(1,Math.abs(p.x-sweep)/220);
+      const ef = edge(p.x);                          // left-edge fade
+      const rr = p.r*(1 + near*0.9);
+      // glow
+      const gg=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,rr*7);
+      gg.addColorStop(0,p.c); gg.addColorStop(1,'transparent');
+      ctx.globalAlpha=(0.3+near*0.45)*tw*ef;
+      ctx.fillStyle=gg;
+      ctx.beginPath(); ctx.arc(p.x,p.y,rr*7,0,Math.PI*2); ctx.fill();
+      // core
+      ctx.globalAlpha=ef;
+      ctx.fillStyle=p.c;
+      ctx.beginPath(); ctx.arc(p.x,p.y,rr,0,Math.PI*2); ctx.fill();
+      // white hot center
+      ctx.globalAlpha=Math.min(1,0.5+near*0.5)*ef;
+      ctx.fillStyle='#fff';
+      ctx.beginPath(); ctx.arc(p.x,p.y,rr*0.45,0,Math.PI*2); ctx.fill();
+    }
+    ctx.globalAlpha=1;
+    requestAnimationFrame(frame);
+  }
+
+  addEventListener('resize', resize);
+  resize();
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

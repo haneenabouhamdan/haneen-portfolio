@@ -1,8 +1,10 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
+import Image from "next/image";
 import { useRef } from "react";
 import { Reveal, WordsReveal } from "@/components/motion/Reveal";
+import { Magnetic } from "@/components/motion/Magnetic";
 import { Tilt } from "@/components/motion/Tilt";
 import { MacBookMockup, IPhoneMockup } from "@/components/projects/DeviceMockup";
 import type { Project } from "@/lib/content";
@@ -41,9 +43,20 @@ export default function ProjectCase({ project, i }: { project: Project; i: numbe
                 <p className="micro mb-2">
                   {project.category} · {project.year}
                 </p>
-                <h3 className="text-3xl font-semibold tracking-tight text-cream md:text-5xl">
-                  {project.name}
-                </h3>
+                <div className="flex min-w-0 items-center gap-3 md:gap-4">
+                  {project.logo && (
+                    <Image
+                      src={project.logo}
+                      alt=""
+                      width={44}
+                      height={44}
+                      className="h-9 w-9 shrink-0 rounded-xl object-cover md:h-11 md:w-11"
+                    />
+                  )}
+                  <h3 className="text-3xl font-semibold tracking-tight text-cream md:text-5xl">
+                    {project.name}
+                  </h3>
+                </div>
               </div>
             </div>
             <span className="shrink-0 rounded-full border border-black/10 bg-white/60 px-3 py-1.5 text-[10px] uppercase tracking-[0.14em] text-sand sm:px-4 sm:text-[11px]">
@@ -129,6 +142,25 @@ export default function ProjectCase({ project, i }: { project: Project; i: numbe
                   ))}
                 </ul>
               </Reveal>
+              {project.liveUrl && (
+                <Reveal delay={0.2}>
+                  <div className="mt-8">
+                    <Magnetic strength={0.25}>
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group inline-flex items-center gap-2.5 text-sm text-cream transition-colors hover:text-blue"
+                      >
+                        <span className="border-b border-blue/40 pb-0.5 transition-colors group-hover:border-blue">
+                          Visit live site
+                        </span>
+                        <span className="transition-transform duration-500 group-hover:translate-x-1">→</span>
+                      </a>
+                    </Magnetic>
+                  </div>
+                </Reveal>
+              )}
             </div>
           </div>
 
