@@ -66,53 +66,40 @@ export function MacBookMockup({ src, videoSrc, poster, alt, className, priority 
 
 /**
  * Photoreal iPhone 15 Pro frame (matches Figma Portfolio-web node 545:958).
- * Content is masked to the true glass hole (anti-aliased), then inset slightly
- * so UI clears the curved bezel and Dynamic Island — same breathing room as
- * a real device safe area.
+ * Screenshot sits in the glass inset; device chrome PNG overlays with a
+ * transparent screen hole so edges stay anti-aliased like the design file.
  */
 export function IPhoneMockup({ src, alt, className, priority }: Props) {
-  const screenMask = {
-    maskImage: "url(/frames/iphone-screen-mask.png)",
-    WebkitMaskImage: "url(/frames/iphone-screen-mask.png)",
-    maskSize: "100% 100%",
-    WebkitMaskSize: "100% 100%",
-    maskRepeat: "no-repeat",
-    WebkitMaskRepeat: "no-repeat",
-  } as const;
-
   return (
     <div className={`relative mx-auto w-full max-w-[250px] ${className ?? ""}`}>
       {/* 1294×2656 device aspect */}
       <div className="relative aspect-[1294/2656] w-full">
-        {/* Screen: masked to glass + padded inside so content isn’t clipped by corners/island */}
-        <div className="absolute inset-0 bg-black" style={screenMask}>
-          <div
-            className="absolute overflow-hidden bg-black"
-            style={{
-              /* Extra inset inside the glass for safe padding */
-              left: "7.2%",
-              top: "5.4%",
-              width: "85.6%",
-              height: "90.4%",
-              borderRadius: "11%",
-            }}
-          >
-            {src ? (
-              <Image
-                src={src}
-                alt={alt}
-                fill
-                sizes="(max-width:768px) 45vw, 250px"
-                quality={95}
-                className="object-cover object-top"
-                style={{ objectFit: "cover", objectPosition: "top center" }}
-                priority={priority}
-                draggable={false}
-              />
-            ) : (
-              <Placeholder />
-            )}
-          </div>
+        {/* Screen content — inset measured from Figma/iphone.png (57,50)–(1236,2606) */}
+        <div
+          className="absolute overflow-hidden bg-black"
+          style={{
+            left: "4.405%",
+            top: "1.883%",
+            width: "91.113%",
+            height: "96.235%",
+            borderRadius: "12.5%",
+          }}
+        >
+          {src ? (
+            <Image
+              src={src}
+              alt={alt}
+              fill
+              sizes="(max-width:768px) 45vw, 250px"
+              quality={95}
+              className="object-cover object-top"
+              style={{ objectFit: "cover", objectPosition: "top center" }}
+              priority={priority}
+              draggable={false}
+            />
+          ) : (
+            <Placeholder />
+          )}
         </div>
 
         {/* Device chrome — Dynamic Island, bezel, side buttons, silver rim */}
