@@ -65,27 +65,29 @@ export function MacBookMockup({ src, videoSrc, poster, alt, className, priority 
 }
 
 /**
- * Pure-CSS iPhone frame with a 9:19.5 screen and dynamic-island pill in the
- * top bezel (never over screenshot pixels). Portrait screenshots fill the
- * glass with object-cover/object-top.
+ * Pure-CSS iPhone frame with a 9:19.5 screen and Dynamic Island in the top
+ * bezel only (never over screenshot pixels). Screenshots should be screen-
+ * content with ~50–70px top safe padding so headers clear the island.
+ * Fill the glass edge-to-edge with object-cover/object-top — no letterboxing.
  */
 export function IPhoneMockup({ src, alt, className, priority }: Props) {
   return (
     <div className={`relative mx-auto w-full max-w-[250px] ${className ?? ""}`}>
-      <div className="relative rounded-[8%] border border-white/12 bg-[#0a0a0d] px-[2.6%] pb-[2.6%] pt-[4.4%] shadow-[0_30px_70px_-25px_rgba(0,0,0,0.9)]">
+      <div className="relative rounded-[8%] border border-white/12 bg-[#0a0a0d] px-[2.4%] pb-[2.4%] pt-[5%] shadow-[0_30px_70px_-25px_rgba(0,0,0,0.9)]">
         {/* side buttons */}
         <span className="absolute -left-[2px] top-[22%] h-[7%] w-[2px] rounded-l bg-white/10" />
         <span className="absolute -left-[2px] top-[33%] h-[10%] w-[2px] rounded-l bg-white/10" />
         <span className="absolute -right-[2px] top-[26%] h-[13%] w-[2px] rounded-r bg-white/10" />
-        {/* dynamic island — lives in the top bezel band, above the screen */}
-        <span className="pointer-events-none absolute left-1/2 top-[1.6%] z-20 h-[2.2%] max-h-[10px] w-[28%] -translate-x-1/2 rounded-full bg-black" />
-        <div className="relative aspect-[9/19.5] w-full overflow-hidden rounded-[6%] bg-[#111114]">
+        {/* Dynamic Island — strictly inside the top bezel, above the glass */}
+        <span className="pointer-events-none absolute left-1/2 top-[1.35%] z-20 h-[2%] max-h-[9px] w-[26%] -translate-x-1/2 rounded-full bg-black shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06)]" />
+        <div className="relative aspect-[9/19.5] w-full overflow-hidden rounded-[5.5%] bg-black">
           {src ? (
             <Image
               src={src}
               alt={alt}
               fill
-              sizes="250px"
+              sizes="(max-width:768px) 45vw, 250px"
+              quality={95}
               className="object-cover object-top"
               style={{ objectFit: "cover", objectPosition: "top center" }}
               priority={priority}
