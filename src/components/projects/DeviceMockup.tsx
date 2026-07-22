@@ -82,7 +82,7 @@ export function IPhoneMockup({ src, alt, className, priority }: Props) {
             top: "1.883%",
             width: "91.113%",
             height: "96.235%",
-            borderRadius: "12.5%",
+            borderRadius: "7.5%",
           }}
         >
           {src ? (
