@@ -65,18 +65,20 @@ export function MacBookMockup({ src, videoSrc, poster, alt, className, priority 
 }
 
 /**
- * Pure-CSS iPhone frame with a 9:19.5 screen and dynamic-island pill. Portrait
- * screenshots (≈472×1024 and 768/780 wide shots) fill it exactly with
- * object-cover — the Emaar One shots land near pixel-perfect.
+ * Pure-CSS iPhone frame with a 9:19.5 screen and dynamic-island pill in the
+ * top bezel (never over screenshot pixels). Portrait screenshots fill the
+ * glass with object-cover/object-top.
  */
 export function IPhoneMockup({ src, alt, className, priority }: Props) {
   return (
     <div className={`relative mx-auto w-full max-w-[250px] ${className ?? ""}`}>
-      <div className="relative rounded-[8%] border border-white/12 bg-[#0a0a0d] p-[2.6%] shadow-[0_30px_70px_-25px_rgba(0,0,0,0.9)]">
+      <div className="relative rounded-[8%] border border-white/12 bg-[#0a0a0d] px-[2.6%] pb-[2.6%] pt-[4.4%] shadow-[0_30px_70px_-25px_rgba(0,0,0,0.9)]">
         {/* side buttons */}
         <span className="absolute -left-[2px] top-[22%] h-[7%] w-[2px] rounded-l bg-white/10" />
         <span className="absolute -left-[2px] top-[33%] h-[10%] w-[2px] rounded-l bg-white/10" />
         <span className="absolute -right-[2px] top-[26%] h-[13%] w-[2px] rounded-r bg-white/10" />
+        {/* dynamic island — lives in the top bezel band, above the screen */}
+        <span className="pointer-events-none absolute left-1/2 top-[1.6%] z-20 h-[2.2%] max-h-[10px] w-[28%] -translate-x-1/2 rounded-full bg-black" />
         <div className="relative aspect-[9/19.5] w-full overflow-hidden rounded-[6%] bg-[#111114]">
           {src ? (
             <Image
@@ -92,8 +94,6 @@ export function IPhoneMockup({ src, alt, className, priority }: Props) {
           ) : (
             <Placeholder />
           )}
-          {/* dynamic island */}
-          <span className="absolute left-1/2 top-[1.6%] z-20 h-[3.4%] w-[30%] -translate-x-1/2 rounded-full bg-black" />
           <span className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/[0.05] via-transparent to-transparent" />
         </div>
       </div>
