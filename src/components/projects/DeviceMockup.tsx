@@ -72,12 +72,12 @@ export function MacBookMockup({ src, videoSrc, poster, alt, className, priority 
 export function IPhoneMockup({ src, alt, className, priority }: Props) {
   return (
     <div className={`relative mx-auto w-full max-w-[250px] ${className ?? ""}`}>
-      <div className="relative rounded-[13%] border border-white/12 bg-[#0a0a0d] p-[3.2%] shadow-[0_30px_70px_-25px_rgba(0,0,0,0.9)]">
+      <div className="relative rounded-[8%] border border-white/12 bg-[#0a0a0d] p-[2.6%] shadow-[0_30px_70px_-25px_rgba(0,0,0,0.9)]">
         {/* side buttons */}
         <span className="absolute -left-[2px] top-[22%] h-[7%] w-[2px] rounded-l bg-white/10" />
         <span className="absolute -left-[2px] top-[33%] h-[10%] w-[2px] rounded-l bg-white/10" />
         <span className="absolute -right-[2px] top-[26%] h-[13%] w-[2px] rounded-r bg-white/10" />
-        <div className="relative aspect-[9/19.5] w-full overflow-hidden rounded-[10%] bg-[#111114]">
+        <div className="relative aspect-[9/19.5] w-full overflow-hidden rounded-[6%] bg-[#111114]">
           {src ? (
             <Image
               src={src}
