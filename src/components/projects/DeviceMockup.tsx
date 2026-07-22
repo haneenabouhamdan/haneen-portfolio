@@ -65,22 +65,26 @@ export function MacBookMockup({ src, videoSrc, poster, alt, className, priority 
 }
 
 /**
- * Pure-CSS iPhone frame with a 9:19.5 screen and Dynamic Island in the top
- * bezel only (never over screenshot pixels). Screenshots should be screen-
- * content with ~50–70px top safe padding so headers clear the island.
- * Fill the glass edge-to-edge with object-cover/object-top — no letterboxing.
+ * Photoreal iPhone 15 Pro frame (matches Figma Portfolio-web node 545:958).
+ * Screenshot sits in the glass inset; device chrome PNG overlays with a
+ * transparent screen hole so edges stay anti-aliased like the design file.
  */
 export function IPhoneMockup({ src, alt, className, priority }: Props) {
   return (
     <div className={`relative mx-auto w-full max-w-[250px] ${className ?? ""}`}>
-      <div className="relative rounded-[8%] border border-white/12 bg-[#0a0a0d] px-[2.4%] pb-[2.4%] pt-[5%] shadow-[0_30px_70px_-25px_rgba(0,0,0,0.9)]">
-        {/* side buttons */}
-        <span className="absolute -left-[2px] top-[22%] h-[7%] w-[2px] rounded-l bg-white/10" />
-        <span className="absolute -left-[2px] top-[33%] h-[10%] w-[2px] rounded-l bg-white/10" />
-        <span className="absolute -right-[2px] top-[26%] h-[13%] w-[2px] rounded-r bg-white/10" />
-        {/* Dynamic Island — strictly inside the top bezel, above the glass */}
-        <span className="pointer-events-none absolute left-1/2 top-[1.35%] z-20 h-[2%] max-h-[9px] w-[26%] -translate-x-1/2 rounded-full bg-black shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06)]" />
-        <div className="relative aspect-[9/19.5] w-full overflow-hidden rounded-[5.5%] bg-black">
+      {/* 1294×2656 device aspect */}
+      <div className="relative aspect-[1294/2656] w-full">
+        {/* Screen content — inset measured from Figma/iphone.png (57,50)–(1236,2606) */}
+        <div
+          className="absolute overflow-hidden bg-black"
+          style={{
+            left: "4.405%",
+            top: "1.883%",
+            width: "91.113%",
+            height: "96.235%",
+            borderRadius: "12.5%",
+          }}
+        >
           {src ? (
             <Image
               src={src}
@@ -96,8 +100,20 @@ export function IPhoneMockup({ src, alt, className, priority }: Props) {
           ) : (
             <Placeholder />
           )}
-          <span className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/[0.05] via-transparent to-transparent" />
         </div>
+
+        {/* Device chrome — Dynamic Island, bezel, side buttons, silver rim */}
+        <Image
+          src="/frames/iphone.png"
+          alt=""
+          fill
+          sizes="(max-width:768px) 45vw, 250px"
+          quality={100}
+          className="pointer-events-none select-none object-contain"
+          aria-hidden
+          priority={priority}
+          draggable={false}
+        />
       </div>
     </div>
   );
@@ -109,4 +125,5 @@ function Placeholder() {
       <span className="micro text-muted">Preview</span>
     </div>
   );
+}
 }
